@@ -1,0 +1,161 @@
+/**
+Defaults
+**/
+
+* {margin:0;padding:0;}
+body {font-family:Helvetica,sans-serif;color:#444;font-size:16px;}
+ul {list-style-type: none;overflow:auto;}
+img {border:0;outline:0;padding:0;margin:0;}
+hr {border:0;height:1px;width:100%;}
+p {line-height: 30px;}
+
+
+
+/**
+Modular Classes -- Production
+**/
+
+
+/* Color Scheme & Patterns */
+.ltgreen {background-color: #66bb3d;}
+.dkgreen {background-color: #397b19;}
+.slate {background-color: #f2f2f2;}
+
+.ltgray {background-color:#f7f7f7;}
+.dkgray {background-color: #333;}
+
+.diamond {background-image: url(../images/pattern.png);}
+.matterhorn {background: url(../images/matterhorn-banner-repeat.png) center;background-size: auto 100%;}
+
+
+/* Text */
+.verysmall {font-size:.8em;}
+.small {font-size:.9em;}
+.normal {font-size:1em;}
+.large {font-size:1.2em;}
+.verylarge {font-size:1.5em;}
+.heading {font-size:2.25em;}
+
+.sans {font-family: sans-serif;}
+.serif {font-family: Georgia, Times, serif;}
+.ptsans {font-family: 'PT Sans Caption';}
+
+.justify {text-align: justify;}
+.textcenter {text-align: center;}
+
+.upper {text-transform: uppercase;}
+.lower {text-transform: lowercase;}
+
+.underline {text-decoration: underline;}
+.normal {font-weight:normal;font-style:normal;text-decoration:none;}
+
+.subtext {color:#a7a7a7;}
+.whitetext {color:white;}
+.normaltext {color:#444;}
+
+.textshadow {text-shadow: 0px 1px 0px rgba(0, 0, 0, 1);}
+.squeeze {letter-spacing: -1px;}
+
+.bullet {list-style-type:disc; }
+
+
+/* Borders */
+.border {border:1px solid #e0e0e0;}
+.bborder {border-bottom:1px solid #e0e0e0;}
+.rad3 {border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;}
+
+
+/* Spacing */
+.section {padding:100px 0px;}
+
+.pad10 {padding:10px;}
+.pad20 {padding:20px;}
+.hpad10 {padding:0 10px;}
+.hpad20 {padding:0 20px;}
+.vpad10 {padding:10px 0;}
+.vpad20 {padding:20px 0;}
+
+.mt10 {margin-top: 10px;}
+.mt20 {margin-top: 20px;}
+.mr10 {margin-right: 10px;}
+.mr20 {margin-right: 20px;}
+.mb10 {margin-bottom: 10px;}
+.mb20 {margin-bottom: 20px;}
+.ml10 {margin-left: 10px;}
+.ml20 {margin-left: 20px;}
+
+
+/* Element Behavior */
+.ftlt {float:left;}
+.ftrt {float:right;}
+
+.block {display: block}
+.inblock {display: inline-block;}
+
+.fix {position: fixed;}
+.abs {position: absolute;}
+.rel {position: relative;}
+.stat {position: static;}
+
+.autoflow {overflow:auto;}
+
+
+/* Layout */
+.fixed {width:1000px;}
+.partial {max-width:1000px;width:80%;}
+
+.center {margin:0 auto;}
+
+
+/* Images */
+.fill {width:100%;height:auto;}
+.advert {opacity: 0.5;}
+.advert:hover {opacity: 1;cursor: pointer;}
+
+/* Columns */
+.col {width:30%;margin-right:5%;}
+li.col:nth-child(3n) {margin-right:0px;}
+li.col:nth-child(3n+1):last-child {width:100%;}
+li.col:nth-child(3n+1):nth-last-of-type(2),
+li.col:nth-child(3n+1):nth-last-of-type(2) + li {width: 47.5%;}
+li.col:last-child {margin-right:0px;}
+
+
+/* Responsive Column Behavior */
+
+@media screen and (max-width:700px) {
+  .col {width:100%!important;}
+  li.col {margin-bottom:40px;}
+  li.col:last-child {margin-bottom: 0px;}
+  ul#nav li {display:block;margin-right:0;}
+}
+
+
+
+/**
+Site specific
+**/
+
+header {
+  background:#f2f2f2;
+  overflow:auto;
+}
+
+#logo, nav, ul {
+  float:left;
+}
+
+header button {
+  float:right;
+}
+
+header li {
+  display:inline-block;
+  margin-right:20px;
+}
+
+#logo, nav, header button {
+  margin:15px 20px;
+}
+
+#logo {text-shadow: 0px 1px 0px rgba(255, 255, 255, 1)}

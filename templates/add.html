@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block section %}
+	<p>Section block!</p>
+{% endblock %}
+{% block body %}
+	<form action="{{ url_for('add_item') }}" method="post" class="add-entry">
+	    <dl>
+	        <dt>Title:</dt>
+	        <dd><input type="text" size="30" name="title"></dd>
+	        <dt>Text:</dt>
+	        <dd><textarea name="text" rows="5" cols="40"></textarea></dd>
+	        <dt>Desktop Environment:</dt>
+	        <dd>
+	        	<select name="family" id="family">
+	        	</select>
+	        </dd>
+
+	        <dd><input type="submit" value="Share"></dd>
+	    </dl>
+	</form>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block body %}
+
+	<h2>Register</h2>
+
+	{% if error %}
+		<p class="error"><strong>Error: </strong>{{error}}</p>
+	{% endif %}
+
+	<form action="{{ url_for('register') }}" method="POST">
+		<input type="text" name="usr" placeholder="Username">
+		<input type="password" name="pwd" placeholder="Password">
+		<input type="password" name="rpwd" placeholder="Password">
+		<button type="submit">Register</button>
+	</form>
+
+{% endblock %}

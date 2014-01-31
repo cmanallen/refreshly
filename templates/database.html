@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block section %}
+	<h2>Table Name: </h2>
+{% endblock %}
+{% block body %}
+
+	<form action="{{ url_for('database') }}" method="POST">
+		<select name="table-select" id="table-selector">
+			<option value="entries">Entries</option>
+			<option value="users">Users</option>
+		</select>
+	</form>
+
+	<table>
+	{% for row in results %}
+		<tr>
+			<td>{{ row.id }}</td>
+			<td>{{ row.username }}</td>
+			<td>{{ row.password }}</td>
+		</tr>
+	{% else %}
+	<p>There are no entries in this table.</p>
+	{% endfor %}
+	</table>
+{% endblock %}

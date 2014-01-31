@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<!-- Title -->
+	<title>Document</title>
+	
+	<!-- Meta -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<!-- Styles -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+	<!-- Scripts -->
+	<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+	<!-- Fonts -->
+
+
+</head>
+<body>
+	<header>
+		<h3 id="logo">RefreshYourDE</h3>
+		<nav>
+			<ul>
+				<li><a href="/sort/Gnome">Gnome</a></li>
+				<li><a href="/sort/KDE">KDE</a></li>
+				<li><a href="/sort/Pantheon">Pantheon</a></li>
+				<li><a href="/sort/Cinnamon">Cinnamon</a></li>
+				<li><a href="/sort/XFCE">XFCE</a></li>
+			</ul>
+		</nav>
+		<button>Contribute</button>
+	</header>
+	<section class="pad20">
+		{% block section %}
+		{% endblock %}
+	</section>
+	<main class="pad20">
+		{% block body %}
+		{% endblock %}
+	</main>
+	<footer>
+		{% block footer %}
+		{% endblock %}
+	</footer>
+
+	<!-- BREAKS THE SITE.  MOVE TO OWN FILE. -->
+
+	{% if session.logged_in %}
+
+	<div id="popover">
+		
+		<form action="{{ url_for('add_item') }}" method="post" class="add-entry">
+			<div id="step-one">
+				
+				<!-- Title -->
+	            <h4>Title:</h4>
+	            <input type="text" size="30" name="title">
+	            
+	            <!-- Description -->
+	            <h4>Description:</h4>
+	            <textarea name="text" rows="5" cols="40"></textarea>
+	            
+	            <h4>Choose Theme Type:</h4>
+	            <!-- Desktop Environment -->
+		        <select name="family" id="family">
+	        		<option value="0">Choose a DE...</option>
+		        	{% for (family, genus) in sort.items() %}
+					<option value="{{ family }}">{{ family }}</option>
+		        	{% endfor %}
+	        	</select>		        
+		        <!-- Type -->
+		        {% for (family, genus) in sort.items() %}	        
+	        	<select class="select-type" name="{{ family }}" id="{{ family }}">
+	        		<option value="0">Choose a type...</option>
+	        		{% for genus in sort[family] %}
+					<option value="{{ genus }}">{{ genus }}</option>
+	        		{% endfor %}
+	        	</select>
+				{% endfor %}
+
+	            <!-- Submt -->
+	            <input type="submit" value="Share">
+
+		    </div>
+		    <div id="step-two">
+		    	
+		    	<!-- Theme Files -->
+				<h4>Theme Files:</h4>
+				<input type="text">
+
+				<!-- README -->
+				<h4>Installion Instructions:</h4>
+				<textarea name="text" cols="30" rows="10"></textarea>
+
+		    </div>
+		    <div id="step-three">
+		    	
+				<!-- Gallery -->
+				<h4>Image Upload:</h4>
+				<input type="text">
+
+		    </div>
+	    </form>
+	</div>
+
+    {% else %}
+
+    <div id="popover">
+
+    	<h2>Login</h2>
+
+		{% if error %}
+			<p class="error"><strong>Error: </strong>{{ error }}</p>
+		{% endif %}
+
+		<form action="{{ url_for('login') }}" method="POST">
+			<input type="text" name="usr">
+			<input type="password" name="pwd">
+			<button type="submit">Login</button>
+		</form>
+
+		<h2>Register</h2>
+
+		{% if error %}
+			<p class="error"><strong>Error: </strong>{{error}}</p>
+		{% endif %}
+
+		<form action="{{ url_for('register') }}" method="POST">
+			<input type="text" name="usr" placeholder="Username">
+			<input type="password" name="pwd" placeholder="Password">
+			<input type="password" name="rpwd" placeholder="Password">
+			<button type="submit">Register</button>
+		</form>
+
+	</div>
+
+    {% endif %}
+
+</body>
+</html>
