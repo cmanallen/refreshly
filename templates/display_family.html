@@ -1,31 +1,36 @@
 {% extends "layout.html" %}
 
 {% block section %}
-	<h2>{{ title }}</h2>
+
+	<h2 class="inblock capitalize">{{ title }}</h2>
+
+	<nav class="inblock">
+		<ul>
+			{% for genus in sort[title] %}
+			<li id="{{ genus }}" class="ftlt ml20 capitalize verysmall mt5">
+				<a href="/sort/{{ title }}/{{ genus }}">
+					{{ genus }}
+				</a>
+			</li>
+			{% else %}
+				<p>There are currently no categories.</p>
+			{% endfor %}
+		</ul>
+	</nav>
+
 {% endblock %}
 
 {% block body %}
-	<aside><nav><ul>
-		{% for genus in sort[title] %}
-		<li id="{{ genus }}">
-			<a href="/sort/{{ title }}/{{ genus }}">
-				{{ genus }}
-			</a>
-		</li>
-		{% else %}
-			<p>There are currently no categories.</p>
-		{% endfor %}
-	</ul></nav></aside>
 
+	<div id="entries">
 	{% for entry in entries %}
-		<article>
-			<img src="{{ entry.img }}" alt="Theme image">
-			<h4>{{ entry.title }}</h4>
-			<span>Date posted and author information.</span>
-			<p>{{ entry.description|safe }}</p>
+		<article class="ftlt white">
+			<img src="{{ entry.img }}" alt="Theme image" class="fill">
+			<h3 class="pad10">{{ entry.title }}</h3>
 		</article>
 	{% else %}
 		<p>There are currently no entries.</p>
 	{% endfor %}
+	</div>
 
 {% endblock %}

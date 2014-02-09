@@ -25,14 +25,12 @@ app.config.from_object(__name__)
 
 # NAVIGATION
 sort = {
-    "Gnome": ["Shell", "GTK", "GDM"],
-    "KDE": ["Plasma", "QT-Themes", "KDM"],
-    "XFCE": ["Themes"],
-    "Pantheon": ["Shell", "eGTK", "LDM", "Icons"],
-    "Cinnamon": ["Shell", "GTK", "MDM"],
+    "gnome": ["gnome-shell", "gtk", "gdm"],
+    "kde": ["plasma", "qt", "kdm"],
+    "xfce": ["gtk"],
+    "elementary": ["pantheon", "gtk", "ldm", "icons"],
+    "mint": ["cinnamon", "gtk", "mdm"],
 }
-
-sgsgs = sorted(sort)
 
 
 # CODE
@@ -57,16 +55,18 @@ def before_request():
 # Display all items
 @app.route('/')
 def home():
-    cur = g.db.execute('SELECT id, title, description FROM entries ORDER BY id DESC')
-    entries = [dict(id=row[0], title=row[1], description=row[2]) for row in cur.fetchall()]
+    cur = g.db.execute('SELECT id, title, description, family, genus FROM items ORDER BY id DESC')
+    entries = [dict(id=row[0], title=row[1], description=row[2], family=row[3], genus=row[4]) for row in cur.fetchall()]
     return render_template('item_showcase.html', entries=entries, sort=sort)
 
 
 # Display particular desktop environment
 @app.route('/sort/<family>', methods=['GET', 'POST'])
 def display_environment(family):
+    if family not in sort:
+        abort(404)
     title = family
-    cur = g.db.execute('SELECT id, title, description FROM entries WHERE family=?', [family])
+    cur = g.db.execute('SELECT id, title, description FROM items WHERE family=?', [family])
     entries = [dict(id=row[0], title=row[1], description=row[2]) for row in cur.fetchall()]
     return render_template('display_family.html', entries=entries, title=title, sort=sort)
 
@@ -74,8 +74,10 @@ def display_environment(family):
 # Display particular theme type
 @app.route('/sort/<family>/<genus>', methods=['GET', 'POST'])
 def display_genus(family, genus):
+    if genus not in sort[family]:
+        abort(404)
     title = [family, genus]
-    cur = g.db.execute('SELECT id, title, description FROM entries WHERE family=? AND genus=?', [family, genus])
+    cur = g.db.execute('SELECT id, title, description FROM items WHERE family=? AND genus=?', [family, genus])
     entries = [dict(id=row[0], title=row[1], description=row[2]) for row in cur.fetchall()]
     return render_template('display_genus.html', entries=entries, title=title)
 
@@ -83,15 +85,15 @@ def display_genus(family, genus):
 # Display particular item
 @app.route('/sort/<family>/<genus>/<species>', methods=['GET', 'POST'])
 def display_species(family, genus, species):
-    cur = g.db.execute('SELECT id, title, description FROM entries WHERE family=? AND genus=? AND id=?', [family, genus, species])
+    cur = g.db.execute('SELECT id, title, description FROM items WHERE family=? AND genus=? AND id=?', [family, genus, species])
     entries = [dict(id=row[0], title=row[1], description=row[2]) for row in cur.fetchall()]
     return render_template('display_species.html', entries=entries)
 
 
 # Add an item
-@app.route('/add', methods=['POST'])
+@app.route('/add', methods=['GET', 'POST'])
 def add_item():
-    g.db.execute('INSERT INTO entries (title, description) VALUES (?, ?)',[request.form['title'], request.form['text']])
+    g.db.execute('INSERT INTO items (title, description, family, genus) VALUES (?, ?, ?, ?)',[request.form['title'], request.form['text'], request.form['family'], request.form['genus']])
     g.db.commit()
     flash('New entry was successfully posted.')
     return redirect(url_for('home'))
@@ -101,11 +103,22 @@ def add_item():
 @app.route('/remove', methods=['POST'])
 def remove_item():
     # really just assign an inactive date
-    g.db.execute('UPDATE entries SET inactive = "Yes" WHERE id = ?', item_id)
+    g.db.execute('UPDATE items SET inactive = "Yes" WHERE id = ?', item_id)
     g.db.commit()
     flash('Entry was successfully deleted.')
     return redirect(url_for('home'))
 
+
+#
+# USER AREA
+#
+
+@app.route('/profile/<name>', methods=['GET', 'POST'])
+def user_profile(name):
+    username = name
+    cur = g.db.execute('SELECT id, username FROM users WHERE id = ?', [name])
+    user = [dict(id=row[0], username=row[1]) for row in cur.fetchall()]
+    return render_template('profile.html', user=user, username=username)
 
 # 
 # USER REGISTRATION AND SIGN IN AND SIGN OUT
@@ -126,21 +139,19 @@ def register():
             try:
                 g.db.execute("INSERT INTO users (username, password) VALUES ('%s','%s')" % (username, password))
             except sqlite3.IntegrityError:
-                error = 'Username %s is already in database' %username
+                error = 'Username %s is taken!' %username
                 g.db.rollback()
             else:
                 flash('You have successfully registered.')
-                redirect(url_for('home'))
+                return redirect(url_for('home'))
             finally:
                 g.db.commit()
-    return redirect(url_for('home'))
+    return render_template('register.html', error=error)
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
-    # cur = g.db.execute('SELECT id, username, password FROM users WHERE username = "bozo"')
-    # printme = [dict(id=row[0], username=row[1], password=row[2]) for row in cur.fetchall()]
     if session.get('logged_in'):
         return redirect(url_for('home'))
     elif request.method == 'POST':
@@ -177,8 +188,8 @@ def database():
     if request.method == 'POST':
         entries = request.form['entries']
         users = request.form['users']  
-    cur = g.db.execute('SELECT * FROM users')
-    blah = [dict(id=row[0], username=row[1], password=row[2]) for row in cur.fetchall()]
+    cur = g.db.execute('SELECT * FROM items')
+    blah = [dict(id=row[0], title=row[1], description=row[2], family=row[3], genus=row[4]) for row in cur.fetchall()]
 
     return render_template('database.html', results=blah, error=error)
 

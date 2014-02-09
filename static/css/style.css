@@ -3,7 +3,7 @@ Defaults
 **/
 
 * {margin:0;padding:0;}
-body {font-family:Helvetica,sans-serif;color:#444;font-size:16px;}
+body {font-family:Helvetica,sans-serif;color:#444;font-size:16px;background:#252f39;}
 ul {list-style-type: none;overflow:auto;}
 img {border:0;outline:0;padding:0;margin:0;}
 hr {border:0;height:1px;width:100%;}
@@ -17,16 +17,16 @@ Modular Classes -- Production
 
 
 /* Color Scheme & Patterns */
+
+.dkblue {background-color:#1c262f;}
+.ltblue {background-color:#252f39;}
+
 .ltgreen {background-color: #66bb3d;}
 .dkgreen {background-color: #397b19;}
+
 .slate {background-color: #f2f2f2;}
-
-.ltgray {background-color:#f7f7f7;}
 .dkgray {background-color: #333;}
-
-.diamond {background-image: url(../images/pattern.png);}
-.matterhorn {background: url(../images/matterhorn-banner-repeat.png) center;background-size: auto 100%;}
-
+.white {background-color:white;}
 
 /* Text */
 .verysmall {font-size:.8em;}
@@ -43,17 +43,19 @@ Modular Classes -- Production
 .justify {text-align: justify;}
 .textcenter {text-align: center;}
 
+.capitalize {text-transform: capitalize;}
 .upper {text-transform: uppercase;}
 .lower {text-transform: lowercase;}
 
 .underline {text-decoration: underline;}
+.bold {font-weight: bold;}
 .normal {font-weight:normal;font-style:normal;text-decoration:none;}
 
 .subtext {color:#a7a7a7;}
 .whitetext {color:white;}
 .normaltext {color:#444;}
 
-.textshadow {text-shadow: 0px 1px 0px rgba(0, 0, 0, 1);}
+.textshadow {text-shadow: 0 1px 0 rgba(0, 0, 0, 1);}
 .squeeze {letter-spacing: -1px;}
 
 .bullet {list-style-type:disc; }
@@ -63,18 +65,24 @@ Modular Classes -- Production
 .border {border:1px solid #e0e0e0;}
 .bborder {border-bottom:1px solid #e0e0e0;}
 .rad3 {border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;}
-
+.shadow {box-shadow: 0 1px 0 rgba(0,0,0,0.15);margin-bottom:1px;}
 
 /* Spacing */
 .section {padding:100px 0px;}
 
+.pad5 {padding:5px;}
 .pad10 {padding:10px;}
 .pad20 {padding:20px;}
-.hpad10 {padding:0 10px;}
-.hpad20 {padding:0 20px;}
-.vpad10 {padding:10px 0;}
-.vpad20 {padding:20px 0;}
+.hpad5 {padding-left:5px;padding-right:5px;}
+.hpad10 {padding-left:10px;padding-right:10px;}
+.hpad20 {padding-left:20px;padding-right:20px;}
+.vpad5 {padding-top:5px;padding-bottom:5px;}
+.vpad10 {padding-top:10px;padding-bottom:10px;}
+.vpad20 {padding-top:20px;padding-bottom:20px;}
 
+.m10 {margin:10px;}
+.m20 {margin:20px;}
+.mt5 {margin-top:5px;}
 .mt10 {margin-top: 10px;}
 .mt20 {margin-top: 20px;}
 .mr10 {margin-right: 10px;}
@@ -99,16 +107,19 @@ Modular Classes -- Production
 
 .autoflow {overflow:auto;}
 
+.pointer {cursor:pointer;}
+
 
 /* Layout */
 .fixed {width:1000px;}
 .partial {max-width:1000px;width:80%;}
+.fluid {width:80%;}
 
 .center {margin:0 auto;}
 
 
 /* Images */
-.fill {width:100%;height:auto;}
+.fill {width:100%;height:auto;min-height:200px;max-height:200px;}
 .advert {opacity: 0.5;}
 .advert:hover {opacity: 1;cursor: pointer;}
 
@@ -136,26 +147,25 @@ li.col:last-child {margin-right:0px;}
 Site specific
 **/
 
-header {
-  background:#f2f2f2;
-  overflow:auto;
-}
-
-#logo, nav, ul {
-  float:left;
-}
-
-header button {
-  float:right;
-}
-
-header li {
-  display:inline-block;
-  margin-right:20px;
-}
-
-#logo, nav, header button {
-  margin:15px 20px;
-}
-
-#logo {text-shadow: 0px 1px 0px rgba(255, 255, 255, 1)}
+/* Header */
+header a {color:#e0e0e0;text-decoration:none;}
+header a:hover {color:white;}
+header ul {margin-top:4px;}
+#logo:hover {color:white;}
+/* Items */
+#entries {clear:both;overflow:auto;}
+article {width:16%;margin-right:5%;margin-bottom:20px;}
+article:nth-of-type(5n) {margin-right:0;}
+aside {background: #f2f2f2;display:inline-block;border-radius:3px;}
+ul.sort li {box-shadow: 0 1px 0 rgba(0,0,0,0.15);background:white;cursor:pointer;margin-bottom:1px;}
+ul.sort li:hover {background-color:#66bb3d;box-shadow:0 1px 0 #397b19;color:white;}
+#active {box-shadow:0 1px 0 #397b19;color:white;outline:0;border:0;}
+/* Add item */
+input {background:white;border:1px solid #c0c0c0;padding:5px;margin:0;border-radius:3px;}
+input:focus {border:1px solid #27A04D;}
+textarea {background:white;border:1px solid #c0c0c0;padding:5px;margin:0;border-radius:3px;}
+textarea:focus {border:1px solid #27A04D;}
+select#family {background:white;border:1px solid #c0c0c0;padding:5px;margin:0;border-radius:3px 3px 0 0;}
+select#family:focus {border:1px solid #27A04D;}
+.select-type {background:white;border:1px solid #c0c0c0;padding:5px;margin:0;border-radius:0 0 3px 3px;border-top:0;}
+select:focus {border:1px solid #27A04D;border-top:0;}

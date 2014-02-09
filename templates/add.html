@@ -4,18 +4,55 @@
 {% endblock %}
 {% block body %}
 	<form action="{{ url_for('add_item') }}" method="post" class="add-entry">
-	    <dl>
-	        <dt>Title:</dt>
-	        <dd><input type="text" size="30" name="title"></dd>
-	        <dt>Text:</dt>
-	        <dd><textarea name="text" rows="5" cols="40"></textarea></dd>
-	        <dt>Desktop Environment:</dt>
-	        <dd>
-	        	<select name="family" id="family">
-	        	</select>
-	        </dd>
+		<div id="step-one">
+			
+			<!-- Title -->
+            <h4>Title:</h4>
+            <input type="text" size="30" name="title">
+            
+            <!-- Description -->
+            <h4>Description:</h4>
+            <textarea name="text" rows="5" cols="40"></textarea>
+            
+            <h4>Choose Theme Type:</h4>
+            <!-- Desktop Environment -->
+	        <select name="family" id="family">
+        		<option value="0">Choose a DE...</option>
+	        	{% for (family, genus) in sort.items() %}
+				<option value="{{ family }}">{{ family }}</option>
+	        	{% endfor %}
+        	</select>		        
+	        <!-- Type -->
+	        {% for (family, genus) in sort.items() %}	        
+        	<select class="select-type" name="genus" id="{{ family }}">
+        		<option value="0">Choose a type...</option>
+        		{% for genus in sort[family] %}
+				<option value="{{ genus }}">{{ genus }}</option>
+        		{% endfor %}
+        	</select>
+			{% endfor %}
 
-	        <dd><input type="submit" value="Share"></dd>
-	    </dl>
-	</form>
+            <!-- Submt -->
+            <button>Share</button>
+
+	    </div>
+	    <div id="step-two">
+	    	
+	    	<!-- Theme Files -->
+			<h4>Theme Files:</h4>
+			<input type="text">
+
+			<!-- README -->
+			<h4>Installion Instructions:</h4>
+			<textarea name="text" cols="30" rows="10"></textarea>
+
+	    </div>
+	    <div id="step-three">
+	    	
+			<!-- Gallery -->
+			<h4>Image Upload:</h4>
+			<input type="text">
+
+	    </div>
+    </form>
 {% endblock %}

@@ -1,9 +1,21 @@
 {% extends "layout.html" %}
 
 {% block section %}
-	<h2>{{ title[0] }}/{{ title[1] }}</h2>
+	<h2 class="capitalize inblock">{{ title[0] }} / </h2>
+	<h2 class="capitalize inblock">{{ title[1] }}</h2>
 {% endblock %}
 
 {% block body %}
-	<p>dummy text</p>
+
+	<div id="entries">
+	{% for entry in entries %}
+		<article class="ftlt white">
+			<img src="{{ entry.img }}" alt="Theme image" class="fill">
+			<h3 class="pad10">{{ entry.title }}</h3>
+		</article>
+	{% else %}
+		<p>There are currently no entries.</p>
+	{% endfor %}
+	</div>
+
 {% endblock %}
