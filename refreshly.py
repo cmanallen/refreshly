@@ -74,6 +74,8 @@ def display_environment(family):
 # Display particular theme type
 @app.route('/sort/<family>/<genus>', methods=['GET', 'POST'])
 def display_genus(family, genus):
+    if family not in sort:
+        abort(404)
     if genus not in sort[family]:
         abort(404)
     title = [family, genus]
@@ -85,13 +87,17 @@ def display_genus(family, genus):
 # Display particular item
 @app.route('/sort/<family>/<genus>/<species>', methods=['GET', 'POST'])
 def display_species(family, genus, species):
+    if family not in sort:
+        abort(404)
+    if genus not in sort[family]:
+        abort(404)
     cur = g.db.execute('SELECT id, title, description FROM items WHERE family=? AND genus=? AND id=?', [family, genus, species])
     entries = [dict(id=row[0], title=row[1], description=row[2]) for row in cur.fetchall()]
     return render_template('display_species.html', entries=entries)
 
 
 # Add an item
-@app.route('/add', methods=['GET', 'POST'])
+@app.route('/', methods=['POST'])
 def add_item():
     g.db.execute('INSERT INTO items (title, description, family, genus) VALUES (?, ?, ?, ?)',[request.form['title'], request.form['text'], request.form['family'], request.form['genus']])
     g.db.commit()

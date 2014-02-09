@@ -99,6 +99,8 @@ Modular Classes -- Production
 
 .block {display: block}
 .inblock {display: inline-block;}
+.none {display: none;}
+.hidden {display: hidden;}
 
 .fix {position: fixed;}
 .abs {position: absolute;}
@@ -169,3 +171,7 @@ select#family {background:white;border:1px solid #c0c0c0;padding:5px;margin:0;bo
 select#family:focus {border:1px solid #27A04D;}
 .select-type {background:white;border:1px solid #c0c0c0;padding:5px;margin:0;border-radius:0 0 3px 3px;border-top:0;}
 select:focus {border:1px solid #27A04D;border-top:0;}
+
+
+/* Entries */
+.add-entry {left:50%;top:50%;}
