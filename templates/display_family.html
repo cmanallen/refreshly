@@ -22,15 +22,18 @@
 
 {% block body %}
 
-	<div id="entries">
+	<ul id="entries">
 	{% for entry in entries %}
-		<article class="ftlt white">
+		<li class="ftlt white col mb20">
 			<img src="{{ entry.img }}" alt="Theme image" class="fill">
 			<h3 class="pad10">{{ entry.title }}</h3>
-		</article>
+		</li>
 	{% else %}
 		<p>There are currently no entries.</p>
 	{% endfor %}
-	</div>
+	</ul>
+
+	<p>Previous</p>
+	<p>Next</p>
 
 {% endblock %}

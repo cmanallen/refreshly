@@ -15,7 +15,7 @@ SECRET_KEY = 'dev_key' #dont do something simple
 
 # FILE UPLOAD
 UPLOAD_FOLER = '/static/uploads'
-ALLOWED_EXTENSIONS = set(['tar.gz', 'tgz', 'tar.bz2', 'tbz', 'zip'])
+ALLOWED_EXTENSIONS = set(['gz', 'tgz', 'bz2', 'tbz', 'zip'])
 
 
 # APP STARTUP
@@ -23,78 +23,85 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 
 
-# NAVIGATION
-sort = {
-    "gnome": ["gnome-shell", "gtk", "gdm"],
-    "kde": ["plasma", "qt", "kdm"],
-    "xfce": ["gtk"],
-    "elementary": ["pantheon", "gtk", "ldm", "icons"],
-    "mint": ["cinnamon", "gtk", "mdm"],
-}
 
+#
+# DATABASE
+#
 
-# CODE
-def connect():
-    return sqlite3.connect(app.config['DATABASE'])
+class Database(object):
+    def __init__(self):
+        pass
 
-def init_db():
-    with closing(connect()) as db:
-        with app.open_resource('schema.sql', mode='r') as f:
-            db.cursor().executescript(f.read())
-        db.commit()
+    def connect():
+        return sqlite3.connect(app.config['DATABASE'])
+
+    def init_db():
+        with closing(connect()) as db:
+            with app.open_resource('schema.sql', mode='r') as f:
+                db.cursor().executescript(f.read())
+            db.commit()
 
 @app.before_request
 def before_request():
-    g.db = connect()
+    g.db = Database.connect()
 
 
 # 
 # USER GENERATED CONTENT
 # 
 
+class Navigation(object):
+
+    def __init__(self):
+        self.sort = {
+            "gnome": ["gnome-shell", "gtk", "gdm"],
+            "kde": ["plasma", "qt", "kdm"],
+            "xfce": ["gtk"],
+            "elementary": ["pantheon", "gtk", "ldm", "icons"],
+            "mint": ["cinnamon", "gtk", "mdm"],
+        }
+
+navigation = Navigation()
+
 # Display all items
 @app.route('/')
 def home():
     cur = g.db.execute('SELECT id, title, description, family, genus FROM items ORDER BY id DESC')
     entries = [dict(id=row[0], title=row[1], description=row[2], family=row[3], genus=row[4]) for row in cur.fetchall()]
-    return render_template('item_showcase.html', entries=entries, sort=sort)
-
+    return render_template('item_showcase.html', entries=entries, sort=navigation.sort)
 
 # Display particular desktop environment
 @app.route('/sort/<family>', methods=['GET', 'POST'])
 def display_environment(family):
-    if family not in sort:
+    if family not in navigation.sort:
         abort(404)
     title = family
     cur = g.db.execute('SELECT id, title, description FROM items WHERE family=?', [family])
     entries = [dict(id=row[0], title=row[1], description=row[2]) for row in cur.fetchall()]
-    return render_template('display_family.html', entries=entries, title=title, sort=sort)
-
+    return render_template('display_family.html', entries=entries, title=title, sort=navigation.sort)
 
 # Display particular theme type
 @app.route('/sort/<family>/<genus>', methods=['GET', 'POST'])
 def display_genus(family, genus):
-    if family not in sort:
+    if family not in navigation.sort:
         abort(404)
-    if genus not in sort[family]:
+    if genus not in navigation.sort[family]:
         abort(404)
     title = [family, genus]
     cur = g.db.execute('SELECT id, title, description FROM items WHERE family=? AND genus=?', [family, genus])
     entries = [dict(id=row[0], title=row[1], description=row[2]) for row in cur.fetchall()]
-    return render_template('display_genus.html', entries=entries, title=title)
-
+    return render_template('display_genus.html', entries=entries, title=title, sort=navigation.sort)
 
 # Display particular item
 @app.route('/sort/<family>/<genus>/<species>', methods=['GET', 'POST'])
 def display_species(family, genus, species):
-    if family not in sort:
+    if family not in navigation.sort:
         abort(404)
-    if genus not in sort[family]:
+    if genus not in navigation.sort[family]:
         abort(404)
     cur = g.db.execute('SELECT id, title, description FROM items WHERE family=? AND genus=? AND id=?', [family, genus, species])
     entries = [dict(id=row[0], title=row[1], description=row[2]) for row in cur.fetchall()]
-    return render_template('display_species.html', entries=entries)
-
+    return render_template('display_species.html', entries=entries, sort=navigation.sort)
 
 # Add an item
 @app.route('/', methods=['POST'])
@@ -123,13 +130,13 @@ def remove_item():
 def user_profile(name):
     username = name
     cur = g.db.execute('SELECT id, username FROM users WHERE id = ?', [name])
-    user = [dict(id=row[0], username=row[1]) for row in cur.fetchall()]
-    return render_template('profile.html', user=user, username=username)
+    for row in cur.fetchall():
+        dict = {id:row[0], username:row[1]}
+    return render_template('profile.html', user=row, username=username)
 
 # 
 # USER REGISTRATION AND SIGN IN AND SIGN OUT
 # 
-
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():

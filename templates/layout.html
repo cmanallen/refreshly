@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
 	<!-- Scripts -->
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<script src="{{ url_for('static', filename='js/main.js') }}"></script>
 
 	<!-- Fonts -->
@@ -21,76 +21,19 @@
 </head>
 <body>
 	<header class="autoflow ltblue">
-		
 		<a href="/" style="color:#86939c;">
 			<h3 id="logo" class="ftlt pad20 dkblue textshadow">RefreshYourDE</h3>
-		</a>
-		
+		</a>		
 		<nav class="ftlt upper bold verysmall mt20">
 			<ul class="inblock">
 				<li class="inblock ml20"><a href="/sort/gnome">Gnome</a></li>
 				<li class="inblock ml20"><a href="/sort/kde">KDE</a></li>
+				<li class="inblock ml20"><a href="/sort/xfce">XFCE</a></li>
 				<li class="inblock ml20"><a href="/sort/elementary">Elementary</a></li>
 				<li class="inblock ml20"><a href="/sort/mint">Mint</a></li>
-				<li class="inblock ml20"><a href="/sort/xfce">XFCE</a></li>
 			</ul>
-		</nav>
-		
+		</nav>		
 		<a id="active" class="ftrt rad3 pad5 mr20 ltgreen pointer small bold" style="margin-top:16px;">Contribute</a>
-		
-		<form action="{{ url_for('add_item') }}" method="post" class="add-entry abs white rad3 pad20 none">
-			<div id="step-one">
-				
-				<!-- Title -->
-	            <h4>Title:</h4>
-	            <input type="text" size="30" name="title">
-	            
-	            <!-- Description -->
-	            <h4>Description:</h4>
-	            <textarea name="text" rows="5" cols="40"></textarea>
-	            
-	            <h4>Choose Theme Type:</h4>
-	            <!-- Desktop Environment -->
-		        <select name="family" id="family">
-	        		<option>Choose a DE...</option>
-		        	{% for (family, genus) in sort.items() %}
-					<option value="{{ family }}">{{ family }}</option>
-		        	{% endfor %}
-	        	</select>
-	        	<br>        
-		        <!-- Type -->
-		        {% for (family, genus) in sort.items() %}	        
-	        	<select class="select-type none" name="genus" id="{{ family }}">
-	        		<option>Choose a type...</option>
-	        		{% for genus in sort[family] %}
-					<option value="{{ genus }}">{{ genus }}</option>
-	        		{% endfor %}
-	        	</select>
-				{% endfor %}
-
-	            <!-- Submt -->
-	            <button>Share</button>
-
-		    </div>
-		    <div id="step-two">
-		    	
-		    	<!-- Theme Files -->
-				<h4>Theme Files:</h4>
-				<input type="text">
-
-				<!-- README -->
-				<h4>Installion Instructions:</h4>
-				<textarea name="text" cols="30" rows="10"></textarea>
-
-		    </div>
-		    <div id="step-three">
-		    	
-				<!-- Gallery -->
-				<h4>Image Upload:</h4>
-				<input type="text">
-
-		    </div>
-	    </form>
 	</header>
 	<section class="pad20 white">
 		<div class="partial center">
@@ -104,9 +47,23 @@
 			{% endblock %}
 		</div>
 	</main>
-	<footer class="pad20 autoflow ltblue" style="border-top:4px solid #1c262f">
-		{% block footer %}
-		{% endblock %}
+	<footer class="pad20 autoflow white" style="border-top:1px solid #e0e0e0">
+		<div class="partial center">
+			<ul>
+				<li class="ftlt col">
+					<h4>Explore by Environment</h4>	
+					{% for links in sort %}
+					<a href="#">{{ links }}</a>
+					{% endfor %}
+				</li>
+				<li class="ftlt col">
+					<h4>Explore by Type</h4>	
+				</li>
+				<li class="ftlt col">
+					<h4>RefreshYourDE</h4>	
+				</li>
+			</ul>
+		</div>
 	</footer>
 </body>
 </html>

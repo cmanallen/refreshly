@@ -3,7 +3,7 @@ Defaults
 **/
 
 * {margin:0;padding:0;}
-body {font-family:Helvetica,sans-serif;color:#444;font-size:16px;background:#252f39;}
+body {font-family:Helvetica,sans-serif;color:#444;font-size:16px;}
 ul {list-style-type: none;overflow:auto;}
 img {border:0;outline:0;padding:0;margin:0;}
 hr {border:0;height:1px;width:100%;}
@@ -115,7 +115,7 @@ Modular Classes -- Production
 /* Layout */
 .fixed {width:1000px;}
 .partial {max-width:1000px;width:80%;}
-.fluid {width:80%;}
+.fluid {width:100%;}
 
 .center {margin:0 auto;}
 
@@ -128,9 +128,6 @@ Modular Classes -- Production
 /* Columns */
 .col {width:30%;margin-right:5%;}
 li.col:nth-child(3n) {margin-right:0px;}
-li.col:nth-child(3n+1):last-child {width:100%;}
-li.col:nth-child(3n+1):nth-last-of-type(2),
-li.col:nth-child(3n+1):nth-last-of-type(2) + li {width: 47.5%;}
 li.col:last-child {margin-right:0px;}
 
 
@@ -174,4 +171,6 @@ select:focus {border:1px solid #27A04D;border-top:0;}
 
 
 /* Entries */
-.add-entry {left:50%;top:50%;}
+.add-entry {left:50%;margin-top:50px;margin-left:-170px;}
+.add-entry input, .add-entry textarea {width:300px;}
+#black {background:rgba(0,0,0,0.5);position:fixed;height:100%;width:100%;}
