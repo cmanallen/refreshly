@@ -2,12 +2,12 @@
 
 {% block section %}
 
-	<h2 class="inblock capitalize">{{ title }}</h2>
+	<h3 class="inblock capitalize" style="margin-top:-3px;">{{ title }}</h3>
 
 	<nav class="inblock">
 		<ul>
-			{% for genus in sort[title] %}
-			<li id="{{ genus }}" class="ftlt ml20 capitalize verysmall mt5">
+			{% for genus in config.sort[title] %}
+			<li id="{{ genus }}" class="ftlt ml20 capitalize verysmall">
 				<a href="/sort/{{ title }}/{{ genus }}">
 					{{ genus }}
 				</a>

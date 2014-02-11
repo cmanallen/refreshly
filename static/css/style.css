@@ -23,6 +23,7 @@ Modular Classes -- Production
 
 .ltgreen {background-color: #66bb3d;}
 .dkgreen {background-color: #397b19;}
+.dkgborder {border:1px solid #397b19;}
 
 .slate {background-color: #f2f2f2;}
 .dkgray {background-color: #333;}
@@ -128,6 +129,9 @@ Modular Classes -- Production
 /* Columns */
 .col {width:30%;margin-right:5%;}
 li.col:nth-child(3n) {margin-right:0px;}
+li.col:nth-child(3n+1):last-child {width:100%;}
+li.col:nth-child(3n+1):nth-last-of-type(2),
+li.col:nth-child(3n+1):nth-last-of-type(2) + li {width: 47.5%;}
 li.col:last-child {margin-right:0px;}
 
 

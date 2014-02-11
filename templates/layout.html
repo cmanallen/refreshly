@@ -26,16 +26,14 @@
 		</a>		
 		<nav class="ftlt upper bold verysmall mt20">
 			<ul class="inblock">
-				<li class="inblock ml20"><a href="/sort/gnome">Gnome</a></li>
-				<li class="inblock ml20"><a href="/sort/kde">KDE</a></li>
-				<li class="inblock ml20"><a href="/sort/xfce">XFCE</a></li>
-				<li class="inblock ml20"><a href="/sort/elementary">Elementary</a></li>
-				<li class="inblock ml20"><a href="/sort/mint">Mint</a></li>
+			{% for link in config.sort %}
+				<li class="inblock ml20"><a href="/sort/{{link}}">{{link}}</a></li>
+			{% endfor %}
 			</ul>
 		</nav>		
 		<a id="active" class="ftrt rad3 pad5 mr20 ltgreen pointer small bold" style="margin-top:16px;">Contribute</a>
 	</header>
-	<section class="pad20 white">
+	<section class="pad20 slate">
 		<div class="partial center">
 			{% block section %}
 			{% endblock %}
@@ -50,17 +48,19 @@
 	<footer class="pad20 autoflow white" style="border-top:1px solid #e0e0e0">
 		<div class="partial center">
 			<ul>
-				<li class="ftlt col">
-					<h4>Explore by Environment</h4>	
-					{% for links in sort %}
-					<a href="#">{{ links }}</a>
-					{% endfor %}
-				</li>
-				<li class="ftlt col">
-					<h4>Explore by Type</h4>	
-				</li>
-				<li class="ftlt col">
-					<h4>RefreshYourDE</h4>	
+				<li class="col ftlt">Half the page</li>
+				<li class="col ftlt">
+					<ul>
+						<li class="ftlt col">
+							<h5>Environment</h5>	
+							{% for link in config.sort %}
+								<a href="#">{{ link }}</a>
+							{% endfor %}
+						</li>
+						<li class="ftlt col">
+							<h5>Advertisement</h5>	
+						</li>
+					</ul>
 				</li>
 			</ul>
 		</div>
