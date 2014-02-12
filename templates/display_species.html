@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block section %}
+
+
+
+{% endblock %}
+
+{% block body %}
+
+	<ul id="entries">
+		
+		<li class="ftlt col mb20">
+			{% for entry in entries %}
+			<article>
+				<h3 class="capitalize">{{ entry.title }}</h3>
+				<p class="verysmall">By: <a href="/profile/dummyuserID">Dummy Username </a>on: <span class="subtext">2014-02-08</span></p>
+			</article>
+			<img src="{{ entry.img }}" alt="Theme image" class="block fill white pad20 rad3" style="width:400px;height:300px;">
+			{% else %}
+			<p>There are currently no entries.</p>
+			{% endfor %}
+			<h4>Comments:</h4>
+			<!-- For Loop with comments -->
+
+			<!-- Endfor -->
+			<form action="">
+				<textarea name="comment" class="fluid"></textarea>
+				<button>Contribute!</button>
+			</form>
+		</li>
+		<li class="ftlt col">
+			<ul>
+				<li class="ftlt col mb20">
+					<p>Theme Info (Distro, likes, etc.)</p>
+				</li>
+				<li class="ftlt col mb20">
+					<p>Advertisement</p>
+				</li>
+			</ul>
+		</li>
+
+	</ul>
+
+{% endblock %}

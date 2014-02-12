@@ -69,10 +69,10 @@ def home():
 def display_environment(family):
     if family not in app.config['sort']:
         abort(404)
-    title = family
+    crumbs = family
     cur = g.db.execute('SELECT id, title, description FROM items WHERE family=?', [family])
     entries = [dict(id=row[0], title=row[1], description=row[2]) for row in cur.fetchall()]
-    return render_template('display_family.html', entries=entries, title=title)
+    return render_template('display_family.html', entries=entries, crumbs=crumbs)
 
 # Display particular theme type
 @app.route('/sort/<family>/<genus>', methods=['GET', 'POST'])
@@ -81,10 +81,10 @@ def display_genus(family, genus):
         abort(404)
     if genus not in app.config['sort'][family]:
         abort(404)
-    title = [family, genus]
+    crumbs = [family, genus]
     cur = g.db.execute('SELECT id, title, description FROM items WHERE family=? AND genus=?', [family, genus])
     entries = [dict(id=row[0], title=row[1], description=row[2]) for row in cur.fetchall()]
-    return render_template('display_genus.html', entries=entries, title=title)
+    return render_template('display_genus.html', entries=entries, crumbs=crumbs)
 
 # Display particular item
 @app.route('/sort/<family>/<genus>/<species>', methods=['GET', 'POST'])
@@ -93,9 +93,10 @@ def display_species(family, genus, species):
         abort(404)
     if genus not in app.config['sort'][family]:
         abort(404)
+    crumbs = [family, genus, species]
     cur = g.db.execute('SELECT id, title, description FROM items WHERE family=? AND genus=? AND id=?', [family, genus, species])
     entries = [dict(id=row[0], title=row[1], description=row[2]) for row in cur.fetchall()]
-    return render_template('display_species.html', entries=entries)
+    return render_template('display_species.html', entries=entries, crumbs=crumbs)
 
 # Add an item
 @app.route('/', methods=['POST'])
